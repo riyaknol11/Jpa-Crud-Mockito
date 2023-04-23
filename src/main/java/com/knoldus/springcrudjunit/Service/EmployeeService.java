@@ -1,6 +1,5 @@
 package com.knoldus.springcrudjunit.Service;
 
-import com.knoldus.springcrudjunit.Dao.EmployeeRepository;
 import com.knoldus.springcrudjunit.Model.Employee;
 
 import java.util.List;
@@ -13,7 +12,7 @@ public interface EmployeeService{
     public Employee addEmployee(Employee employee);
 
 
-    public void deleteEmployeeById(Long empId);
+    public Optional<Employee> deleteEmployeeById(Long empId);
 
     public Employee updateById(Employee employee, Long id);
 

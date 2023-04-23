@@ -1,7 +1,6 @@
 package com.knoldus.springcrudjunit.Service;
 
 import com.knoldus.springcrudjunit.Dao.EmployeeRepository;
-import com.knoldus.springcrudjunit.Model.Address;
 import com.knoldus.springcrudjunit.Model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,11 +26,21 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
 
-
-    @Override
-    public void deleteEmployeeById(Long empId) {
-           employeeRepository.deleteById(empId);
+@Override
+    public Optional<Employee> deleteEmployeeById(Long empId) {
+        Optional<Employee> employeeOptional = employeeRepository.findById(empId);
+        if (employeeOptional.isPresent()) {
+            Employee employee = employeeOptional.get();
+            employeeRepository.delete(employee);
+            // Additional code to handle the successful deletion, for example:
+            System.out.println("Employee with ID " + empId + " has been deleted.");
+            return Optional.of(employee);
+        }
+        // If the employee was not found, return an empty Optional
+        return Optional.empty();
     }
+
+
 
     @Override
     public Employee updateById(Employee employee1, Long id) {

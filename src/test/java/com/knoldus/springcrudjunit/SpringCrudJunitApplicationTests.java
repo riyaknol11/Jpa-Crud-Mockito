@@ -93,5 +93,22 @@ Employee employee;
 	Assert.assertEquals("Same employee updated!", updatedEmployee, updatedEmployeeCapture);
 }
 
+//@Test
+//	public void testDeleteMethod(){
+//	Employee toBeDeleted = (new Employee(12, "Harvey", "Harvey@Jp",
+//			new Address("Manhattan","New York",144)));
+//
+//	when(employeeRepository.findById(anyLong()))
+//			.thenReturn(Optional.of(toBeDeleted));
+//
+//	Optional<Employee> deletedEmployeeService = employeeService.deleteEmployeeById(1L);
+//
+//	ArgumentCaptor<Employee> argument = ArgumentCaptor.forClass(Employee.class);
+//	verify(employeeRepository).save(argument.capture());
+//	Employee deletedEmployee = argument.getValue();
+//	Assert.assertEquals("Deleted the same employee!", toBeDeleted,deletedEmployee);
+//
+//}
+
 
 }

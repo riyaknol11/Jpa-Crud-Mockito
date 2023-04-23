@@ -15,7 +15,15 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
-	</properties>
+
+			<java.version>17</java.version>
+			<sonar.projectKey>spring-crud</sonar.projectKey>
+			<sonar.projectName>spring-crud</sonar.projectName>
+			<sonar.host.url>http://localhost:9000</sonar.host.url>
+			<sonar.login>sqp_0b76fa2f2b8998b551ca3b009cd58c0b207dc4dc</sonar.login>
+			<sonar.scm.provider>git</sonar.scm.provider>
+		</properties>
+
 	<dependencies>
 		<!--		<dependency>-->
 		<!--			<groupId>org.springframework.boot</groupId>-->
@@ -74,14 +82,40 @@
 			<scope>test</scope>
 		</dependency>
 
-
+		<dependency>
+			<groupId>org.sonarsource.scanner.maven</groupId>
+			<artifactId>sonar-maven-plugin</artifactId>
+			<version>3.9.1.2184</version>
+		</dependency>
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>sonar</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<!-- Optional URL to server. Default value is http://localhost:9000 -->
+				<sonar.host.url>
+					http://localhost:9000
+				</sonar.host.url>
+				<checkstyle.failOnViolation>false</checkstyle.failOnViolation>
+			</properties>
+		</profile>
+	</profiles>
 
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.9.1.2184</version>
 			</plugin>
 
 
