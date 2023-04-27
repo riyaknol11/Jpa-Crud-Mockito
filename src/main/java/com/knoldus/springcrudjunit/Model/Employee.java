@@ -1,9 +1,6 @@
 package com.knoldus.springcrudjunit.Model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.*;
 
@@ -24,7 +21,11 @@ public class Employee {
     private String empName;
     private String emp_email;
 
+    //This one to one column will create the foreign key column in the Employee class and the default name of it will be
+    //reference entity class_primary-key column name
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name= "fk_house_no")
     @Embedded
-    private Address address;
+    public Address address;
 
 }

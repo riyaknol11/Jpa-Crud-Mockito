@@ -18,97 +18,117 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class SpringCrudJunitApplicationTests {
 
-@Mock
-	EmployeeRepository employeeRepository;
+    @Mock
+    EmployeeRepository employeeRepository;
 
-@InjectMocks
-	private EmployeeServiceImpl employeeService;
+    @InjectMocks
+    private EmployeeServiceImpl employeeService;
 
-Employee employee;
+    Employee employee;
 
-@BeforeEach
-	public void setUp(){
-	MockitoAnnotations.initMocks(this);
-	employee = new Employee(3,
-			"Priya","Priya@test.com", new Address("USA", "Manhattan", 555));
-}
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+        employee = new Employee(3,
+                "Priya", "Priya@test.com", new Address("USA", "Manhattan", 555));
+    }
 
-@Test
-	void testAddEmployee(){
-	when(employeeRepository.save(employee))
-			.thenReturn(employee);
-	Employee saveRecords = employeeService.addEmployee(employee);
-	Assert.assertEquals("It is equal", employee, saveRecords);
+    @Test
+    void testAddEmployee() {
+        when(employeeRepository.save(employee))
+                .thenReturn(employee);
+        Employee saveRecords = employeeService.addEmployee(employee);
+        Assert.assertEquals("It is equal", employee, saveRecords);
 
-}
+    }
 
-@Test
-	void testFetchAllEmployees(){
-	List<Employee> employeesList = new ArrayList<>();
-	employeesList.add(employee);
-	employeesList.add(new Employee(12, "Harvey", "Harvey@Jp",
-			new Address("Manhattan","New York",144)));
-	employeesList.add(new Employee(20, "Jersey", "Jersey@Jp",
-			new Address("UK","UK",441)));
+    @Test
+    void testFetchAllEmployees() {
+        List<Employee> employeesList = new ArrayList<>();
+        employeesList.add(employee);
+        employeesList.add(new Employee(12, "Harvey", "Harvey@Jp",
+                new Address("Manhattan", "New York", 144)));
+        employeesList.add(new Employee(20, "Jersey", "Jersey@Jp",
+                new Address("UK", "UK", 441)));
 
-	when(employeeRepository.findAll())
-			.thenReturn(employeesList);
-	List<Employee> testEmployeeList = employeeService.fetchAllEmployees();
-	Assert.assertEquals("Same list returned!", employeesList, testEmployeeList);
+        when(employeeRepository.findAll())
+                .thenReturn(employeesList);
+        List<Employee> testEmployeeList = employeeService.fetchAllEmployees();
+        Assert.assertEquals("Same list returned!", employeesList, testEmployeeList);
 
-}
+    }
 
-@Test
-	void testUpdateById(){
-	//Creating an employee object to update
-	Employee toBeUpdated = (new Employee(12, "Harvey", "Harvey@Jp",
-			new Address("Manhattan","New York",144)));
+    @Test
+    void testUpdateById() {
+        //Creating an employee object to update
+        Employee toBeUpdated = (new Employee(12, "Harvey", "Harvey@Jp",
+                new Address("Manhattan", "New York", 144)));
 
-	//Creating an updatedEmployeeObject
-	Employee updatedEmployee = (new Employee(12, "Donna", "Donna@Jp",
-			new Address("Manhattan","New York",244)));
+        //Creating an updatedEmployeeObject
+        Employee updatedEmployee = (new Employee(12, "Donna", "Donna@Jp",
+                new Address("Manhattan", "New York", 244)));
 
 
-	//The thenReturn method is then called on this mock object to return an optional of the
-	// toBeUpdated object when the findById method is called with any long parameter.
-	when(employeeRepository.findById(anyLong()))
-			.thenReturn(Optional.of(toBeUpdated));
+        //The thenReturn method is then called on this mock object to return an optional of the
+        // toBeUpdated object when the findById method is called with any long parameter.
+        when(employeeRepository.findById(anyLong()))
+                .thenReturn(Optional.of(toBeUpdated));
 
-	Employee employeeResponseEntity = employeeService.updateById(updatedEmployee, 12L );
+        Employee employeeResponseEntity = employeeService.updateById(updatedEmployee, 12L);
 
+//	System.out.println(employeeResponseEntity.equals(updatedEmployee)+"------------------------------------------------------------------------------------------------------------");
+        System.out.println(employeeResponseEntity);
+        System.out.println(updatedEmployee);
 //	verify(employeeRepository).save(updatedEmployee);
 
-	//Finally, the ArgumentCaptor is used to capture the argument that was passed to the save method of the employeeRepository mock
-	ArgumentCaptor<Employee> argument = ArgumentCaptor.forClass(Employee.class);
-	verify(employeeRepository).save(argument.capture());
-	Employee updatedEmployeeCapture = argument.getValue();
-	Assert.assertEquals("Same employee updated!", updatedEmployee, updatedEmployeeCapture);
-}
+        //Finally, the ArgumentCaptor is used to capture the argument that was passed to the save method of the employeeRepository mock
+        ArgumentCaptor<Employee> argument = ArgumentCaptor.forClass(Employee.class);
+//	System.out.println(argument.getValue());
+        verify(employeeRepository).save(argument.capture());
+        Employee updatedEmployeeCapture = argument.getValue();
+        Assert.assertEquals("Same employee updated!", employeeResponseEntity, updatedEmployeeCapture);
+    }
 
-//@Test
-//	public void testDeleteMethod(){
-//	Employee toBeDeleted = (new Employee(12, "Harvey", "Harvey@Jp",
-//			new Address("Manhattan","New York",144)));
-//
-//	when(employeeRepository.findById(anyLong()))
-//			.thenReturn(Optional.of(toBeDeleted));
-//
-//	Optional<Employee> deletedEmployeeService = employeeService.deleteEmployeeById(1L);
-//
-//	ArgumentCaptor<Employee> argument = ArgumentCaptor.forClass(Employee.class);
-//	verify(employeeRepository).save(argument.capture());
-//	Employee deletedEmployee = argument.getValue();
-//	Assert.assertEquals("Deleted the same employee!", toBeDeleted,deletedEmployee);
-//
-//}
+    @Test
+    public void testDeleteMethod() {
+        Employee toBeDeleted = (new Employee(12, "Harvey", "Harvey@Jp",
+                new Address("Manhattan", "New York", 144)));
+
+        when(employeeRepository.findById(anyLong()))
+                .thenReturn(Optional.of(toBeDeleted));
+
+        Optional<Employee> deletedEmployeeService = employeeService.deleteEmployeeById(1L);
+
+        ArgumentCaptor<Employee> argument = ArgumentCaptor.forClass(Employee.class);
+        verify(employeeRepository).delete(argument.capture());
+        Employee deletedEmployee = argument.getValue();
+        Assert.assertEquals("Deleted the same employee!", toBeDeleted, deletedEmployee);
+
+    }
+
+    @Test
+    public void testDeleteByName(){
+        Employee toBeDeleted = (new Employee(11,"Donna", "Donna@suits.com",
+                new Address("Manhattan", "New York", 144)));
+
+        when(employeeRepository.findByEmpName(anyString()))
+                .thenReturn(Optional.of(toBeDeleted));
+
+        Optional<Employee> deletedEmployeeByNameOptional = employeeService.deleteEmployeeByName("Donna");
+
+        ArgumentCaptor<Employee> argumentCaptor = ArgumentCaptor.forClass(Employee.class);
+        verify(employeeRepository).delete(argumentCaptor.capture());
+        Employee deletedEmployeeByName = argumentCaptor.getValue();
+        Assert.assertEquals(deletedEmployeeByNameOptional.get(),deletedEmployeeByName);
+
+    }
 
 
 }

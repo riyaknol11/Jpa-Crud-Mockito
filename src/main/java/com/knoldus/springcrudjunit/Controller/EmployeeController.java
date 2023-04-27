@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class EmployeeController {
@@ -25,7 +26,7 @@ public class EmployeeController {
     }
 
     @PutMapping("updateEmployee/{id}")
-    public Employee updateEmployeeById(@RequestBody Employee employee, @PathVariable Long id){
+    public Employee updateEmployeeById(@RequestBody Employee employee, @PathVariable Long id) {
         return employeeService.updateById(employee, id);
     }
 
@@ -36,8 +37,13 @@ public class EmployeeController {
 
     @GetMapping("findByName")
     //http://localhost:8080/findByName?name=Mike Doe ---> Mapping in postman
-    public Employee getEmployeeByName(@RequestParam("name") String emp_name){
+    public Optional<Employee> getEmployeeByName(@RequestParam("name") String emp_name){
         return employeeService.getEmployeeRecordByName(emp_name);
+    }
+
+    @DeleteMapping("deleteByName")
+    public Optional<Employee> deleteEmployeeByName(@RequestParam("name") String emp_name){
+        return employeeService.deleteEmployeeByName(emp_name);
     }
 
 

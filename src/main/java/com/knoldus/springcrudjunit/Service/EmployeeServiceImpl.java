@@ -40,6 +40,18 @@ public class EmployeeServiceImpl implements EmployeeService{
         return Optional.empty();
     }
 
+    @Override
+    public Optional<Employee> deleteEmployeeByName(String name) {
+//        Optional<Employee> deleteByName = Optional.ofNullable(employeeRepository.findByEmpName(name));
+        Optional<Employee> deleteByNameOptional = employeeRepository.findByEmpName(name);
+        if(deleteByNameOptional.isPresent()){
+         Employee employee = deleteByNameOptional.get();
+         employeeRepository.delete(employee);
+            return Optional.ofNullable(employee);
+        }
+        return Optional.empty();
+    }
+
 
 
     @Override
@@ -53,13 +65,30 @@ public class EmployeeServiceImpl implements EmployeeService{
             employee.setAddress(employee1.getAddress());
             updateEmployee = employeeRepository.save(employee);
         }
-
+        System.out.println("Record updated!" + updateEmployee);
         return updateEmployee;
     }
 
+//@Override
+//public Employee updateById(Employee employeeupdated, Long id) {
+//    Optional<Employee> employeeOptional = employeeRepository.findById(id);
+//    if (employeeOptional.isPresent()) {
+//        Employee employee = employeeOptional.get();
+//        employee.setEmpName(employeeupdated.getEmpName());
+//        employee.setEmp_email(employeeupdated.getEmp_email());
+//        employee.setAddress(employeeupdated.getAddress());
+//        employeeRepository.save(employee);
+//    }
+//
+//    return employeeupdated;
+//}
+
     @Override
-    public Employee getEmployeeRecordByName(String emp_name) {
-        return employeeRepository.findByEmpName(emp_name);
+    public Optional<Employee> getEmployeeRecordByName(String emp_name) {
+        Optional<Employee> employeeRecordByName = employeeRepository.findByEmpName(emp_name);
+        return employeeRecordByName;
     }
+
+
 
 }

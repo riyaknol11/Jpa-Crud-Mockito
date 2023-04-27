@@ -7,14 +7,16 @@ import java.util.Optional;
 
 public interface EmployeeService{
 
-    public List<Employee> fetchAllEmployees();
+     List<Employee> fetchAllEmployees();
 
-    public Employee addEmployee(Employee employee);
+     Employee addEmployee(Employee employee);
 
 
-    public Optional<Employee> deleteEmployeeById(Long empId);
+     Optional<Employee> deleteEmployeeById(Long empId);
 
-    public Employee updateById(Employee employee, Long id);
+     Employee updateById(Employee employee, Long id);
 
-    public Employee getEmployeeRecordByName(String name);
+     Optional<Employee> getEmployeeRecordByName(String name);
+
+     Optional<Employee> deleteEmployeeByName(String name);
 }
