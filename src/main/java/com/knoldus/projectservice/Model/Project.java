@@ -1,4 +1,4 @@
-package com.knoldus.springcrudjunit.Model;
+package com.knoldus.projectservice.Model;
 
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
@@ -13,19 +13,19 @@ import lombok.*;
 @Transactional
 @Builder
 @Entity
-public class Employee {
+public class Project {
 
 @Id
-    private int emp_id;
-    @Column(name = "emp_name")
-    private String empName;
-    private String emp_email;
+    private int project_id;
+    @Column(name = "project_name")
+    private String projectName;
+    private String project_email;
 
     //This one to one column will create the foreign key column in the Employee class and the default name of it will be
     //reference entity class_primary-key column name
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name= "fk_house_no")
     @Embedded
-    public Address address;
+    public TeamMembers teamMembers;
 
 }
